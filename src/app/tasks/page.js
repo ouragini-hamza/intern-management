@@ -78,6 +78,7 @@ function getProgressColor(status) {
 export default function TasksPage() {
   const [tasks, setTasks] = useState(initialTasks);
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
@@ -85,9 +86,13 @@ export default function TasksPage() {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
 
-  const filteredTasks = tasks.filter((t) =>
-    t.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredTasks = tasks.filter((t) => {
+    const matchesSearchTerm = t.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === "all" || t.status === statusFilter;
+    return matchesSearchTerm && matchesStatus;
+  });
 
   // Compteurs dérivés directement de `tasks` — jamais stockés à part,
   // pour ne jamais désynchroniser l'affichage des vraies données.
@@ -206,22 +211,42 @@ export default function TasksPage() {
         >
           <h5 style={{ color: "#1a3c6e", margin: 0 }}>Liste des tâches</h5>
           <div style={{ display: "flex", gap: "0.75rem" }}>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Rechercher une tâche..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ minWidth: "220px" }}
-            />
+            <div className="row mb-3">
+              <div className="col-md-6 mb-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Rechercher une tache "
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  
+                />
+              </div>
+              <div className="col-md-3 mb-2" style={{ display: 'flex', gap: '0.75rem' }}>
+                <select
+                  className="form-select"
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="all">Tous les statuts</option>
+                  {statuses.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <button
               className="btn"
               style={{
                 backgroundColor: "#1a3c6e",
                 color: "white",
                 whiteSpace: "nowrap",
+                height: "40px",
               }}
               onClick={openAddModal}
+              
             >
               <i className="bi bi-plus-lg me-2"></i>
               Nouvelle tâche
