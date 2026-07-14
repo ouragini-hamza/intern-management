@@ -25,7 +25,6 @@ export default function Sidebar() {
             overflow: 'hidden',
             flexShrink: 0,
         }}>
-            {/* Header sidebar */}
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -53,7 +52,6 @@ export default function Sidebar() {
                 </button>
             </div>
 
-            {/* Menu items */}
             <ul style={{ listStyle: 'none', padding: 0, margin: '0.5rem 0' }}>
                 {menuItems.map((item) => (
                     <li key={item.href}>

@@ -1,5 +1,4 @@
-
-export default function DashboardLayout({ children }) {
+export default function EvaluationsLayout({ children }) {
     return (
         <main style={{
             flex: 1,

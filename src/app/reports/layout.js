@@ -1,5 +1,4 @@
-
-export default function DashboardLayout({ children }) {
+export default function ReportsLayout({ children }) {
     return (
         <main style={{
             flex: 1,
